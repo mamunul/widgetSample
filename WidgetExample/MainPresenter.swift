@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct WidgetProperty {
-    var uiImage = UIImage(named: "AppIcon")
+    var uiImage = UIImage(named: "a.jpg")!
     var title: String = "Placeholder Title"
     var titleColor = Color.red
     var titleFont = Font.custom("Avenir-Light", size: 12)
@@ -19,11 +19,12 @@ class MainPresenter: ObservableObject {
     @Published var imageArray = [String]()
     @Published var fontArray = [Font]()
     @Published var colorArray = [Color]()
-    @Published var imageName = "a.jpg"
-    @Published var title: String = "Placeholder Title"
-    @Published var titleColor = Color.red
-    @Published var titleFont = Font.custom("Avenir-Light", size: 12)
+    @Published var widgetProperty = WidgetProperty()
     @Published var placeholderTextForFont = "Baby Photo Editor"
+
+    func updateImage(imageName: String) {
+        widgetProperty.uiImage = UIImage(named: imageName)!
+    }
 
     func loadImages() {
         imageArray = ["a.jpg", "b.jpg", "c.jpg", "d.jpg", "a.jpg", "e.jpg", "f.jpg", "h.jpg"]

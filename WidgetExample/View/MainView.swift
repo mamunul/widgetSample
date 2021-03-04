@@ -5,79 +5,65 @@
 //  Created by New User on 3/3/21.
 //
 
-import Intents
 import SwiftUI
-import WidgetKit
 
 struct SmallWidgetView: View {
-    var uiImage: UIImage
-    @Binding var title: String
-    @Binding var titleColor: Color
-    @Binding var titleFont: Font
+    @Binding var widgetProperty: WidgetProperty
     var body: some View {
         ZStack {
-            Image(uiImage: uiImage)
+            Image(uiImage: widgetProperty.uiImage)
                 .resizable()
                 .frame(width: 200, height: 200)
-            Text(title)
-                .font(titleFont)
+            Text(widgetProperty.title)
+                .font(widgetProperty.titleFont)
                 .padding()
-                .foregroundColor(titleColor)
+                .foregroundColor(widgetProperty.titleColor)
                 .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
         }
     }
 }
 
 struct MediumWidgetView: View {
-    var uiImage: UIImage
-    @Binding var title: String
-    @Binding var titleColor: Color
-    @Binding var titleFont: Font
+    @Binding var widgetProperty: WidgetProperty
     var body: some View {
         ZStack {
-            Image(uiImage: uiImage)
+            Image(uiImage: widgetProperty.uiImage)
                 .resizable()
                 .frame(width: 400, height: 200)
-            Text(title)
-                .font(titleFont)
+            Text(widgetProperty.title)
+                .font(widgetProperty.titleFont)
                 .padding()
-                .foregroundColor(titleColor)
+                .foregroundColor(widgetProperty.titleColor)
                 .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
         }
     }
 }
 
 struct LargeWidgetView: View {
-    var uiImage: UIImage
-    @Binding var title: String
-    @Binding var titleColor: Color
-    @Binding var titleFont: Font
+    @Binding var widgetProperty: WidgetProperty
     var body: some View {
         ZStack {
-            Image(uiImage: uiImage)
+            Image(uiImage: widgetProperty.uiImage)
                 .resizable()
                 .frame(width: 400, height: 400)
-            Text(title)
-                .font(titleFont)
+            Text(widgetProperty.title)
+                .font(widgetProperty.titleFont)
                 .padding()
-                .foregroundColor(titleColor)
+                .foregroundColor(widgetProperty.titleColor)
                 .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
         }
     }
 }
 
 struct WidgetFamilyView: View {
-    var uiImage: UIImage
-    @Binding var title: String
-    @Binding var titleColor: Color
-    @Binding var titleFont: Font
+    @Binding var widgetProperty: WidgetProperty
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
                 Group {
-                    SmallWidgetView(uiImage: uiImage, title: $title, titleColor: $titleColor, titleFont: $titleFont)
-                    MediumWidgetView(uiImage: uiImage, title: $title, titleColor: $titleColor, titleFont: $titleFont)
-                    LargeWidgetView(uiImage: uiImage, title: $title, titleColor: $titleColor, titleFont: $titleFont)
+                    SmallWidgetView(widgetProperty: $widgetProperty)
+                    MediumWidgetView(widgetProperty: $widgetProperty)
+                    LargeWidgetView(widgetProperty: $widgetProperty)
                 }.cornerRadius(35.0)
             }
         }.padding()
@@ -96,7 +82,7 @@ struct ImageSelectorView: View {
                         .resizable()
                         .frame(width: 100, height: 100)
                         .onTapGesture {
-                            self.presenter.imageName = imageName
+                            self.presenter.updateImage(imageName: imageName)
                         }
                 }
             }
@@ -107,7 +93,7 @@ struct ImageSelectorView: View {
 struct TextEditorView: View {
     @ObservedObject var presenter: MainPresenter
     var body: some View {
-        TextField(presenter.title, text: $presenter.title)
+        TextField(presenter.widgetProperty.title, text: $presenter.widgetProperty.title)
             .padding()
             .border(Color.gray)
     }
@@ -123,7 +109,7 @@ struct TextColorEditorView: View {
                         .foregroundColor(color)
                         .frame(width: 100, height: 100)
                         .onTapGesture {
-                            self.presenter.titleColor = color
+                            self.presenter.widgetProperty.titleColor = color
                         }
                 }
             }
@@ -141,7 +127,7 @@ struct TitleFontEditorView: View {
                         .padding()
                         .font(font)
                         .onTapGesture {
-                            self.presenter.titleFont = font
+                            self.presenter.widgetProperty.titleFont = font
                         }
                 }
             }
@@ -153,7 +139,7 @@ struct MainView: View {
     @ObservedObject var presenter: MainPresenter = mainPresenter
     var body: some View {
         VStack {
-            WidgetFamilyView(uiImage: UIImage(named: presenter.imageName)!, title: $presenter.title, titleColor: $presenter.titleColor, titleFont: $presenter.titleFont)
+            WidgetFamilyView(widgetProperty: $presenter.widgetProperty)
             ImageSelectorView(presenter: presenter)
             TextEditorView(presenter: presenter)
             TextColorEditorView(presenter: presenter)
