@@ -11,7 +11,8 @@ import UIKit
 
 class ObjectArchiver {
     let randomFilename = "widgetArchive"
-    let sharableGroupIdentifier = "group.com.mamunul.WidgetExample"
+    let sharableGroupIdentifier = "group.com.mamunul.WidgetSampleOBJC"
+    // "group.com.mamunul.WidgetExample"
     func archiveObject(widgetProperty: WidgetProperty) {
         let fullPath = getDocumentsDirectory().appendingPathComponent(randomFilename)
         let codableWidget = CodableWidgetProperty(widgetProperty: widgetProperty)

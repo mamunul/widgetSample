@@ -50,6 +50,13 @@
 		B2BC624125F4E51F00E1815C /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BC614625F4D40C00E1815C /* MediumWidgetView.swift */; };
 		B2BC624625F4E52400E1815C /* LargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BC614525F4D40C00E1815C /* LargeWidgetView.swift */; };
 		B2BC62BB25F4EAC900E1815C /* SwiftImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BC62BA25F4EAC900E1815C /* SwiftImporter.swift */; };
+		B2BC62FB25F4EE4900E1815C /* a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61B925F4E24400E1815C /* a.jpg */; };
+		B2BC630025F4EE4B00E1815C /* b.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61BD25F4E24500E1815C /* b.jpg */; };
+		B2BC630525F4EE5100E1815C /* c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61BC25F4E24500E1815C /* c.jpg */; };
+		B2BC630A25F4EE5400E1815C /* d.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61B825F4E24400E1815C /* d.jpg */; };
+		B2BC630F25F4EE5700E1815C /* e.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61B725F4E24400E1815C /* e.jpg */; };
+		B2BC631425F4EE5900E1815C /* f.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61BB25F4E24400E1815C /* f.jpg */; };
+		B2BC631925F4EE5C00E1815C /* h.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2BC61BA25F4E24400E1815C /* h.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +145,7 @@
 		B2BC62BA25F4EAC900E1815C /* SwiftImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftImporter.swift; sourceTree = "<group>"; };
 		B2BC62E825F4EBC500E1815C /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B2BC62ED25F4EC2B00E1815C /* SampleExtensionExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SampleExtensionExtensionDebug.entitlements; sourceTree = "<group>"; };
+		B2BC62F225F4ED1300E1815C /* WidgetSampleOBJCDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetSampleOBJCDebug.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +229,7 @@
 		B2BC60FF25F4D01500E1815C /* WidgetSampleOBJC */ = {
 			isa = PBXGroup;
 			children = (
+				B2BC62F225F4ED1300E1815C /* WidgetSampleOBJCDebug.entitlements */,
 				B2BC61CB25F4E41600E1815C /* WidgetSampleOBJC.entitlements */,
 				B2BC610025F4D01500E1815C /* AppDelegate.h */,
 				B2BC610125F4D01500E1815C /* AppDelegate.m */,
@@ -432,7 +441,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2BC630025F4EE4B00E1815C /* b.jpg in Resources */,
 				B2BC61DE25F4E45400E1815C /* Assets.xcassets in Resources */,
+				B2BC630A25F4EE5400E1815C /* d.jpg in Resources */,
+				B2BC630F25F4EE5700E1815C /* e.jpg in Resources */,
+				B2BC631925F4EE5C00E1815C /* h.jpg in Resources */,
+				B2BC631425F4EE5900E1815C /* f.jpg in Resources */,
+				B2BC62FB25F4EE4900E1815C /* a.jpg in Resources */,
+				B2BC630525F4EE5100E1815C /* c.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,7 +670,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = WidgetSampleOBJC/WidgetSampleOBJC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WidgetSampleOBJC/WidgetSampleOBJCDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9GAPXPF2Z5;
 				INFOPLIST_FILE = WidgetSampleOBJC/Info.plist;
