@@ -5,55 +5,69 @@
 //  Created by New User on 4/3/21.
 //
 
-import WidgetKit
-import SwiftUI
 import Intents
+import SwiftUI
+import WidgetKit
 
 struct Provider: IntentTimelineProvider {
+    private let objectArchiver = ObjectArchiver()
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), widgetProperty: WidgetProperty(), configuration: ConfigurationIntent())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+        let entry = SimpleEntry(date: Date(), widgetProperty: WidgetProperty(), configuration: configuration)
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         var entries: [SimpleEntry] = []
         let currentDate = Date()
         let midnight = Calendar.current.startOfDay(for: currentDate)
         let nextMidnight = Calendar.current.date(byAdding: .day, value: 1, to: midnight)!
-        
-        for offset in 0 ..< 60 * 24 {
-            let entryDate = Calendar.current.date(byAdding: .minute, value: offset, to: midnight)!
-            entries.append(SimpleEntry(date: entryDate, configuration: configuration))
+
+//        let defaults = UserDefaults(suiteName: "group.com.mamunul.WidgetExample")
+        var widget = WidgetProperty()
+//        widget = defaults?.object(forKey: "widgetProperty") as? WidgetProperty ?? WidgetProperty()
+
+        widget = getUpdatedWidget()
+
+        for offset in 0 ..< 24 {
+            let entryDate = Calendar.current.date(byAdding: .hour, value: offset, to: midnight)!
+            entries.append(SimpleEntry(date: entryDate, widgetProperty: widget, configuration: configuration))
         }
-        
+
         let timeline = Timeline(entries: entries, policy: .after(nextMidnight))
         completion(timeline)
+    }
+
+    private func getUpdatedWidget() -> WidgetProperty {
+        objectArchiver.unarchiveObject() ?? WidgetProperty()
     }
 }
 
 struct SimpleEntry: TimelineEntry {
-    let date: Date
+    var date: Date
+    var widgetProperty: WidgetProperty
     let configuration: ConfigurationIntent
 }
 
-struct SampleWidgetEntryView : View {
-    var entry: Provider.Entry
+struct SampleWidgetEntryView: View {
+    @State var entry: Provider.Entry
+    @Environment(\.widgetFamily) var family: WidgetFamily
 
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "HH:mm:ss"
-        return formatter
-    }()
-    
+    @ViewBuilder
     var body: some View {
-        VStack {
-            Text("\(entry.date, formatter: Self.dateFormatter)")
-            Text(entry.date, style: .time)
+        switch family {
+        case .systemSmall: SmallWidgetView(widgetProperty:
+                Binding<WidgetProperty>(
+                    get: { entry.widgetProperty },
+                    set: { entry.widgetProperty = $0 }
+                )
+            )
+        case .systemMedium: MediumWidgetView(widgetProperty: $entry.widgetProperty)
+        case .systemLarge: LargeWidgetView(widgetProperty: $entry.widgetProperty)
+        default: SmallWidgetView(widgetProperty: $entry.widgetProperty)
         }
     }
 }
@@ -73,7 +87,13 @@ struct SampleWidget: Widget {
 
 struct SampleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        SampleWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        SampleWidgetEntryView(
+            entry: SimpleEntry(
+                date: Date(),
+                widgetProperty: WidgetProperty(),
+                configuration: ConfigurationIntent()
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

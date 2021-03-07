@@ -7,38 +7,48 @@
 
 import Foundation
 import SwiftUI
-
-struct WidgetProperty {
-    var uiImage = UIImage(named: "a.jpg")!
-    var title: String = "Placeholder Title"
-    var titleColor = Color.red
-    var titleFont = Font.custom("Avenir-Light", size: 12)
-}
+import WidgetKit
 
 class MainPresenter: ObservableObject {
     @Published var imageArray = [String]()
-    @Published var fontArray = [Font]()
-    @Published var colorArray = [Color]()
-    @Published var widgetProperty = WidgetProperty()
+    @Published var fontArray = [UIFont]()
+    @Published var colorArray = [UIColor]()
     @Published var placeholderTextForFont = "Baby Photo Editor"
+    @Published var widgetProperty = WidgetProperty() {
+        didSet {
+            updateWidget()
+        }
+    }
+
+    private let objectArchiver: ObjectArchiver
+
+    init() {
+        objectArchiver = ObjectArchiver()
+    }
 
     func updateImage(imageName: String) {
         widgetProperty.uiImage = UIImage(named: imageName)!
     }
 
-    func loadImages() {
-        imageArray = ["a.jpg", "b.jpg", "c.jpg", "d.jpg", "a.jpg", "e.jpg", "f.jpg", "h.jpg"]
-        colorArray = [Color.red, Color.gray, Color.blue, Color.orange, Color.green, Color.pink, Color.purple]
+    func loadResources() {
+        imageArray = ["a.jpg", "b.jpg", "c.jpg", "d.jpg", "e.jpg", "f.jpg", "h.jpg"]
+        colorArray = [UIColor.black, UIColor.red, UIColor.gray, UIColor.blue, UIColor.orange, UIColor.green, UIColor.purple]
+
         fontArray = [
-            Font.custom("Avenir-Light", size: 12),
-            Font.custom("BodoniSvtyTwoOSITCTT-Book", size: 12),
-            Font.custom("ChalkboardSE-Regular", size: 12),
-            Font.custom("Chalkduster", size: 12),
-            Font.custom("Futura-CondensedMedium", size: 12),
-            Font.custom("TrebuchetMS-Italic", size: 12),
-            Font.custom("HiraMinProN-W6", size: 12),
-            Font.custom("GillSans-Italic", size: 12),
-            Font.custom("Didot", size: 12),
+            UIFont(name: "Avenir-Light", size: 12)!,
+            UIFont(name: "BodoniSvtyTwoOSITCTT-Book", size: 12)!,
+            UIFont(name: "ChalkboardSE-Regular", size: 12)!,
+            UIFont(name: "Chalkduster", size: 12)!,
+            UIFont(name: "Futura-CondensedMedium", size: 12)!,
+            UIFont(name: "TrebuchetMS-Italic", size: 12)!,
+            UIFont(name: "HiraMinProN-W6", size: 12)!,
+            UIFont(name: "GillSans-Italic", size: 12)!,
+            UIFont(name: "Didot", size: 12)!,
         ]
+    }
+
+    private func updateWidget() {
+        objectArchiver.archiveObject(widgetProperty: widgetProperty)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

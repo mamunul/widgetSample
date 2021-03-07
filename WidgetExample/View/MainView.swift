@@ -7,54 +7,6 @@
 
 import SwiftUI
 
-struct SmallWidgetView: View {
-    @Binding var widgetProperty: WidgetProperty
-    var body: some View {
-        ZStack {
-            Image(uiImage: widgetProperty.uiImage)
-                .resizable()
-                .frame(width: 200, height: 200)
-            Text(widgetProperty.title)
-                .font(widgetProperty.titleFont)
-                .padding()
-                .foregroundColor(widgetProperty.titleColor)
-                .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
-        }
-    }
-}
-
-struct MediumWidgetView: View {
-    @Binding var widgetProperty: WidgetProperty
-    var body: some View {
-        ZStack {
-            Image(uiImage: widgetProperty.uiImage)
-                .resizable()
-                .frame(width: 400, height: 200)
-            Text(widgetProperty.title)
-                .font(widgetProperty.titleFont)
-                .padding()
-                .foregroundColor(widgetProperty.titleColor)
-                .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
-        }
-    }
-}
-
-struct LargeWidgetView: View {
-    @Binding var widgetProperty: WidgetProperty
-    var body: some View {
-        ZStack {
-            Image(uiImage: widgetProperty.uiImage)
-                .resizable()
-                .frame(width: 400, height: 400)
-            Text(widgetProperty.title)
-                .font(widgetProperty.titleFont)
-                .padding()
-                .foregroundColor(widgetProperty.titleColor)
-                .background(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5))
-        }
-    }
-}
-
 struct WidgetFamilyView: View {
     @Binding var widgetProperty: WidgetProperty
     var body: some View {
@@ -106,7 +58,7 @@ struct TextColorEditorView: View {
             HStack {
                 ForEach(presenter.colorArray, id: \.self) { color in
                     Rectangle()
-                        .foregroundColor(color)
+                        .foregroundColor(Color(color))
                         .frame(width: 100, height: 100)
                         .onTapGesture {
                             self.presenter.widgetProperty.titleColor = color
@@ -125,7 +77,7 @@ struct TitleFontEditorView: View {
                 ForEach(presenter.fontArray, id: \.self) { font in
                     Text(presenter.placeholderTextForFont)
                         .padding()
-                        .font(font)
+                        .font(Font(font))
                         .onTapGesture {
                             self.presenter.widgetProperty.titleFont = font
                         }
@@ -146,7 +98,7 @@ struct MainView: View {
             TitleFontEditorView(presenter: presenter)
         }
         .onAppear {
-            presenter.loadImages()
+            presenter.loadResources()
         }
     }
 }
